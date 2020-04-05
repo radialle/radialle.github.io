@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Criando um fork do Telegram para Android</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://radialle.github.io/criando-um-fork-do-telegram-para-android/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://radialle.github.io/criando-um-fork-do-telegram-para-android/amp/" />
+    
+    <meta property="og:site_name" content="Radialle" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Criando um fork do Telegram para Android" />
+    <meta property="og:description" content="Da clonagem do respositório à compilação" />
+    <meta property="og:url" content="https://radialle.github.io/criando-um-fork-do-telegram-para-android/" />
+    <meta property="og:image" content="https://radialle.github.io/content/images/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg" />
+    <meta property="article:published_time" content="2018-12-21T03:00:00.000Z" />
+    <meta property="article:modified_time" content="2020-04-05T01:51:28.000Z" />
+    <meta property="article:tag" content="Software" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Criando um fork do Telegram para Android" />
+    <meta name="twitter:description" content="Da clonagem do respositório à compilação" />
+    <meta name="twitter:url" content="https://radialle.github.io/criando-um-fork-do-telegram-para-android/" />
+    <meta name="twitter:image" content="https://radialle.github.io/content/images/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Rodrigo Laneth" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Software" />
+    <meta name="twitter:creator" content="@rlaneth" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Radialle",
+        "url": "https://radialle.github.io/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://radialle.github.io/content/images/2020/04/blog-icon.svg"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Rodrigo Laneth",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://radialle.github.io/content/images/2020/04/Unknown-2.jpeg",
+            "width": 640,
+            "height": 640
+        },
+        "url": "https://radialle.github.io/author/rlaneth/",
+        "sameAs": [
+            "https://rlaneth.com",
+            "https://twitter.com/rlaneth"
+        ]
+    },
+    "headline": "Criando um fork do Telegram para Android",
+    "url": "https://radialle.github.io/criando-um-fork-do-telegram-para-android/",
+    "datePublished": "2018-12-21T03:00:00.000Z",
+    "dateModified": "2020-04-05T01:51:28.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://radialle.github.io/content/images/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg",
+        "width": 1400,
+        "height": 933
+    },
+    "keywords": "Software",
+    "description": "Da clonagem do respositório à compilação",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://radialle.github.io/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 3.12" />
+    <link rel="alternate" type="application/rss+xml" title="Radialle" href="https://radialle.github.io/rss/" />
+
+</head>
+<body class="post-template tag-software">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header">
+    <div class="outer site-nav-main">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left-wrapper">
+        <div class="site-nav-left">
+                <a class="site-nav-logo" href="https://radialle.github.io"><img src="/content/images/2020/04/blog-icon.svg" alt="Radialle" /></a>
+            <div class="site-nav-content">
+                    <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="https://radialle.github.io/">Home</a></li>
+    <li class="nav-sobre" role="menuitem"><a href="https://radialle.github.io/sobre/">Sobre</a></li>
+    <li class="nav-comunicados" role="menuitem"><a href="https://radialle.github.io/comunicados/">Comunicados</a></li>
+</ul>
+
+                    <span class="nav-post-title ">Criando um fork do Telegram para Android</span>
+            </div>
+        </div>
+    </div>
+    <div class="site-nav-right">
+            <div class="social-links">
+            </div>
+                <a class="rss-button" href="https://feedly.com/i/subscription/feed/https://radialle.github.io/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+
+    </div>
+</nav>
+    </div>
+</div></header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-software ">
+
+            <header class="post-full-header">
+
+                <section class="post-full-tags">
+                    <a href="/tag/software/">Software</a>
+                </section>
+
+                <h1 class="post-full-title">Criando um fork do Telegram para Android</h1>
+
+                <p class="post-full-custom-excerpt">Da clonagem do respositório à compilação</p>
+
+                <div class="post-full-byline">
+
+                    <section class="post-full-byline-content">
+
+                        <ul class="author-list">
+                            <li class="author-list-item">
+
+                                <div class="author-card">
+                                    <img class="author-profile-image" src="/content/images/size/w100/2020/04/Unknown-2.jpeg" alt="Rodrigo Laneth" />
+                                    <div class="author-info">
+                                        <div class="bio">
+                                            <h2>Rodrigo Laneth</h2>
+                                            <p>Desenvolvedor e pesquisador de segurança da informação.</p>
+                                            <p><a href="/author/rlaneth/">More posts</a> by Rodrigo Laneth.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="/author/rlaneth/" class="author-avatar">
+                                    <img class="author-profile-image" src="/content/images/size/w100/2020/04/Unknown-2.jpeg" alt="Rodrigo Laneth" />
+                                </a>
+
+                            </li>
+                        </ul>
+
+                        <section class="post-full-byline-meta">
+                            <h4 class="author-name"><a href="/author/rlaneth/">Rodrigo Laneth</a></h4>
+                            <div class="byline-meta-content">
+                                <time class="byline-meta-date" datetime="2018-12-21">21 Dez 2018</time>
+                                <span class="byline-reading-time"><span class="bull">&bull;</span> 5 min read</span>
+                            </div>
+                        </section>
+
+                    </section>
+
+
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img
+                    srcset="/content/images/size/w300/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg 300w,
+                            /content/images/size/w600/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg 600w,
+                            /content/images/size/w1000/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg 1000w,
+                            /content/images/size/w2000/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg 2000w"
+                    sizes="(max-width: 800px) 400px,
+                        (max-width: 1170px) 1170px,
+                            2000px"
+                    src="/content/images/size/w2000/2020/04/1-FS_fV4cMzpm2NxjL0GnF5g.jpeg"
+                    alt="Criando um fork do Telegram para Android"
+                />
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p><a href="https://unsplash.com/photos/2c9ffiPlD9Q" rel="noopener">Foto: NeONBRAND/Unsplash</a></p><p>O <strong><strong>Telegram</strong></strong>, um dos serviços de mensagens instantâneas mais populares da atualidade, se destaca pela <a href="https://telegram.org/apps" rel="noopener">abertura do código-fonte</a>, de <a href="https://core.telegram.org/api" rel="noopener">suas APIs</a> e pela existência de uma <a href="https://telegram.org/blog/tdlib" rel="noopener">biblioteca oficial para a construção de clientes alternativos</a>, características que atraem os usuários com conhecimento avançado e o tornam um dos comunicadores mais <em><em>developer-friendly</em> </em>disponíveis no mercado.</p><p>É fato que ele possui defeitos. Condenações ao <a href="https://news.ycombinator.com/item?id=16746148" rel="noopener">uso de criptografia ponta-a-ponta somente em <em><em>secret chats</em></em></a>, <a href="https://crypto.stackexchange.com/questions/55108/has-telegram-security-been-significantly-improved-with-mtproto-2-0" rel="noopener">questionamentos em relação à segurança do MTProto</a> e a <a href="https://www.reddit.com/r/Telegram/comments/4b45ie/when_if_ever_will_telegrams_server_side_source/" rel="noopener">não divulgação do código-fonte dos servidores</a> são algumas das polêmicas que ele enfrentou ao longo de sua existência. Umas das críticas mais relevantes é a do renomado especialista em segurança <a href="https://twitter.com/thegrugq" rel="noopener">The Grugq</a>, que, em seu texto “<a href="https://medium.com/@thegrugq/operational-telegram-cbbaadb9013a" rel="noopener"><em><em>Operational Telegram</em></em></a>”, de novembro de 2015, conclui:</p><blockquote><em><em>O Telegram é suscetível a erros, utiliza criptografia questionável, vaza um grande volume de informações, rouba os contatos do dispositivo, e agora é conhecido como ponto de encontro para terroristas.</em></em></blockquote><p>Mas apesar das controvérsias, o Telegram permanece popular e, por isso, é um interessante objeto de estudo. Então, decidi recentemente iniciar um <em><em>fork</em></em> para aprender com o código-fonte dos clientes oficiais.</p><h2 id="iniciando">Iniciando</h2><p>Antes de decidir qual aplicação do Telegram usaria como base para o desenvolvimento, a minha única preferência era pelas versões <em><em>mobile</em></em>. Mesmo assim, tive algumas frustrações devido à inconsistência na manutenção e na divulgação do código-fonte dos clientes.</p><p>Em janeiro de 2018, o Telegram <a href="https://telegram.org/blog/telegram-x" rel="noopener">anunciou um novo cliente oficial</a> para Android e iOS, o <strong><strong>Telegram X</strong></strong>, que seria mantido paralelamente à alternativa clássica nas lojas de aplicativos das respectivas plataformas. Meses depois, em setembro, anunciou-se a <a href="https://techcrunch.com/2018/09/19/telegram-to-replace-ios-messaging-app-with-telegram-x-swift-rebuild/" rel="noopener">substituição da versão clássica pela X no iOS</a> — muito embora, no momento da publicação deste texto, o app chamado <a href="https://itunes.apple.com/us/app/telegram-x/id898228810" rel="noopener">Telegram X permaneça disponível na App Store</a> ao lado do <a href="https://itunes.apple.com/us/app/telegram-messenger/id686449807" rel="noopener">Telegram Messenger</a>.</p><p>Há pouco tempo atrás, o código-fonte referenciado no site oficial <a href="https://github.com/peter-iakovlev/Telegram" rel="noopener">estava bastante defasado</a>. Hoje, ele aponta para um <a href="https://github.com/peter-iakovlev/Telegram-iOS" rel="noopener">novo repositório no GitHub</a>, aparentemente contendo uma versão mais atual — que <strong><strong>pode</strong></strong> ser baseado no Telegram X. Já o código-fonte do Telegram X para Android aparentemente nunca foi publicado.</p><p>No caso do <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" rel="noopener">Telegram clássico para Android</a>, a situação é menos confusa, com o código-fonte <a href="https://github.com/DrKLO/Telegram" rel="noopener">encontrado no GitHub</a> aparentando equivaler ao aplicativo na Play Store. Enfim, optei por utilizá-lo para o desenvolvimento do <em><em>fork</em></em>.</p><h2 id="configura-o-do-ambiente">Configuração do ambiente</h2><p>As instruções a seguir descrevem a configuração de um ambiente baseado no <strong><strong>Fedora 29</strong></strong> para compilação do Telegram para Android conforme presente em seu repositório do GitHub durante a elaboração deste texto (no momento em que escrevo, o <em><em>commit</em></em> mais recente é o <a href="https://github.com/DrKLO/Telegram/commit/e222fded6cca5ace3649be6f18b55f526311bc79" rel="noopener">e222fde</a>, de 7 de novembro de 2018).</p><p>Embora baseadas no Fedora, as instruções podem ser interpretadas sem grandes dificuldades para aplicação em outras distribuições Linux ou mesmo em sistemas operacionais completamente distintos.</p><p>Como a intenção desta seção é orientar sobre a compilação do aplicativo em sua forma original, evitando alterações ao projeto publicado, precisei basear-me em versões antigas de algumas ferramentas requeridas. São elas:</p><ul><li><strong><strong>Android NDK</strong></strong> (atual: r18b; utilizada: r16b);</li><li><strong><strong>Gradle</strong></strong> (atual: 4.6; utilizada: 4.4);</li><li><strong><strong>Plugin Android Gradle</strong></strong> (atual: 3.2.1; utilizada: 3.1.4)</li></ul><p>Os problemas encontrados em relação às versões mais recentes de cada um dos itens listados estão descritos na próxima seção deste texto.</p><ol><li><strong><strong>Instalação do Android Studio</strong></strong><br>Basta efetuar o <a href="https://developer.android.com/studio/install#linux" rel="noopener">download</a> e prosseguir com a instalação de acordo com as <a href="https://developer.android.com/studio/install#linux" rel="noopener">instruções oficiais</a>, que se resumem a extrair o arquivo <code>.zip</code> para o local desejado e executar o script <code>studio.sh</code> na pasta <code>android-studio/bin</code> .</li><li><strong><strong>Instalação do Android NDK r16b</strong></strong><br>O <a href="https://developer.android.com/ndk/" rel="noopener">NDK (<em><em>Native Development Kit</em></em>)</a> é um conjunto de ferramentas para implementação de partes de um aplicativo Android em código nativo, por meio de linguagens como C e C++. É necessário para compilar bibliotecas incluídas no projeto do Telegram.</li><li><strong><strong>Clonagem do repositório do Telegram para Android</strong></strong><br>Exemplo para linha de comando:<strong><strong> </strong></strong><code>git clone --recurse-submodules <a href="https://github.com/DrKLO/Telegram.git" rel="noopener">https://github.com/DrKLO/Telegram.git</a></code> . Destaque para o parâmetro <code>--recurse-submodules</code>, necessário para que o download do código da biblioteca <a href="https://github.com/DrKLO/Telegram/blob/6a1cf64f6f45ba0d0e7ff898e8a6c677ddc3ef33/.gitmodules" rel="noopener">libgtvoip</a>, incluída no repositório como <a href="https://blog.github.com/2016-02-01-working-with-submodules/" rel="noopener">submódulo</a>, seja também realizado no processo.</li><li><strong><strong>Configuração do Android Studio</strong></strong><br>Após abrir o projeto do Telegram para Android, é preciso configurar o caminho para o Android NDK através da janela <em><em>Project Structure</em></em>, que pode ser acessada por meio do menu <em><em>File</em></em>.</li><li><strong><strong>Modificação do </strong></strong><a href="https://github.com/DrKLO/Telegram/blob/e222fded6cca5ace3649be6f18b55f526311bc79/TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java" rel="noopener"><strong><strong>BuildVars.java</strong></strong></a><br>É necessário gerar e adicionar ao arquivo as suas próprias chaves de API para o <a href="https://core.telegram.org/api/obtaining_api_id" rel="noopener">Telegram</a> e <a href="https://www.hockeyapp.net/" rel="noopener">HockeyApp</a>, conforme <a href="https://github.com/DrKLO/Telegram/blob/d073b80063c568f31d81cc88c927b47c01a1dbf4/README.md" rel="noopener">avisado no README</a> do repositório. Também é interessante observar as outras variáveis presentes e modificá-las conforme desejado.</li><li><strong><strong>Adição do </strong></strong><a href="https://developers.google.com/android/guides/google-services-plugin" rel="noopener"><strong><strong>google-services.json</strong></strong></a><br>O <code>google-services.json</code> é um arquivo de configuração necessário para habilitar o uso de APIs da Google utilizadas pelo Telegram. O processo de geração e adição do arquivo a um projeto do Android Studio é <a href="https://support.google.com/firebase/answer/7015592" rel="noopener">descrito na página de suporte</a> da Google.</li><li><strong><strong>Gerar chave para assinatura</strong></strong><br>Por fim, é necessário gerar chaves para assinar o aplicativo. Uma maneira de fazê-lo de dentro do próprio Android Studio é através da opção <em><em>Build &gt; Generate Signed Bundle / APK… &gt; APK </em></em>(selecionar) <em><em>&gt; Next &gt; Create new…</em></em>. Alternativamente, a ferramenta <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html" rel="noopener">keytool</a> do Java pode ser usada. A <em><em>keystore</em></em> deve ser salva no diretório <code>TMessagesProj/config</code> com o nome <em><em>release.keystore</em></em>, e o <em><em>alias</em></em> da chave gerada, bem como a senha da <em><em>keystore</em></em> e a senha da chave, devem ser adicionadas nas propriedades do projeto (arquivo <em><em>gradle.properties</em></em>).</li></ol><h2 id="problemas-com-vers-es-recentes-das-ferramentas-utilizadas">Problemas com versões recentes das ferramentas utilizadas</h2><p>No momento em que escrevo, existem duas versões estáveis mais recentes do Android NDK disponíveis: a r17c e a r18b.</p><p>O projeto do Telegram para Android tem como requerimento mínimo a API nível 16, associada ao Android 4.1 Jelly Bean. No entanto, bibliotecas usadas por ele utilizam a função <code>posix_memalign</code>, que, a partir do NDK r17c, passou a estar disponível somente para os níveis de API superiores à 17, do Android 4.2 Jelly Bean MR1.</p><p>A justificativa para a mudança, de acordo com <a href="https://github.com/android-ndk/ndk/issues/647" rel="noopener">este issue no repositório do NDK no GitHub</a>, é que a <code>posix_memalign</code> não havia sido implementada em alguns dispositivos com o Android 4.1 Jelly Bean.</p><p>Por sua vez, o NDK r18b abandonou o suporte ao compilador GCC e agora força o uso do Clang, que não compila as bibliotecas do projeto.</p><p>É possível utilizar o NDK r17c alterando o requerimento mínimo do projeto para a API nível 17. O uso do NDK r18, no entanto, exigiria maiores alterações. Há um <a href="https://github.com/DrKLO/Telegram/pull/1483" rel="noopener">pull request aberto</a>, não avaliado nem testado por mim, que promete aplicar as mudanças apropriadas.</p><p>Em relação ao Gradle, a versão 4.6 provoca conflito com a opção depreciada <code>android.enableD8</code>, que desativa o <a href="https://android-developers.googleblog.com/2017/08/next-generation-dex-compiler-now-in.html" rel="noopener">D8</a> e está <a href="https://github.com/DrKLO/Telegram/blob/e222fded6cca5ace3649be6f18b55f526311bc79/gradle.properties#L20" rel="noopener">presente no arquivo <em><em>gradle.properties</em></em></a>, e o <a href="https://android-developers.googleblog.com/2017/04/java-8-language-features-support-update.html" rel="noopener"><em><em>desugaring</em></em></a>, uma etapa extra de otimização do bytecode que tornou-se padrão. Ocorrem problemas também com o valor da <code>buildToolsVersion</code> <a href="https://github.com/DrKLO/Telegram/blob/e222fded6cca5ace3649be6f18b55f526311bc79/TMessagesProj/build.gradle#L36" rel="noopener">declarado no arquivo <em><em>build.gradle</em></em> do TMessagesProj</a>.</p><p>Possíveis soluções são desativar o <em><em>desugaring</em></em> adicionando <code>android.enableD8.desugaring=false</code> ao <em><em>build.gradle</em></em> e elevar o valor da <code>buildToolsVersion</code> de <code>28.0.2</code> para <code>28.0.3</code>.</p><p>No mais, cabe mencionar que o <em><em>plugin</em></em> Android Gradle não pode ser atualizado para a versão 3.1.4 sem que o Gradle seja também atualizado para a 4.6.</p><h2 id="conclus-o">Conclusão</h2><p>Uma vez que o aplicativo tenha sido corretamente compilado, começa-se a pensar na aplicação das modificações desejadas. Particularmente, penso que atualizar o projeto para funcionar com versões mais recentes do Android NDK e do Gradle seriam excelentes primeiros passos.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://radialle.github.io/content/images/2020/04/image-19.png" class="kg-image"><figcaption>Telegram com <strong><strong>AlertDialog</strong></strong> adicionado à <a href="https://github.com/DrKLO/Telegram/blob/e222fded6cca5ace3649be6f18b55f526311bc79/TMessagesProj/src/main/java/org/telegram/ui/IntroActivity.java" rel="noopener"><strong><strong>IntroActivity</strong></strong></a></figcaption></figure><p>Por fim, destaco o <a href="https://github.com/Telegram-FOSS-Team/Telegram-FOSS" rel="noopener">Telegram FOSS</a>. Trata-se de um <em><em>fork</em></em> não oficial do Telegram para Android cuja principal promessa é substituir ou remover elementos “não-<a href="https://en.wikipedia.org/wiki/Free_and_open-source_software" rel="noopener">FOSS</a>, pouco confiáveis ou suspeitos” do mensageiro. Dentre as modificações efetuadas, estão a troca do Google Cloud Messaging pelo serviço de <em><em>push</em></em> do Telegram e a remoção do HockeyApp.</p><p>Não somente esta versão pode ser um melhor ponto de partida para a criação de um <em><em>fork</em></em> do Telegram — a depender, é claro, de suas preferências e objetivos — , o trabalho já realizado pelos seus desenvolvedores podem servir de auxílio mesmo para quem preferir basear-se na versão oficial.</p>
+                </div>
+            </section>
+
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card">
+                    <header class="read-next-card-header">
+                        <h3><span>More in</span> <a href="/tag/software/">Software</a></h3>
+                    </header>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li>
+                                <h4><a href="/slack-como-sistema-de-notificacoes/">Slack como sistema de notificações</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2018-10-19">19 Out 2018</time> –
+                                        3 min read</p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4><a href="/introducao-ao-d-bus/">Introdução ao D-Bus</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2017-11-27">27 Nov 2017</time> –
+                                        10 min read</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="/tag/software/">See all 2 posts
+                            →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-analises ">
+
+    <a class="post-card-image-link" href="/os-mobiles-ja-estao-mais-rapidos-que-os-pcs/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/04/1-kl8Vpj5-QUrzAVbzvSih3Q.jpeg 300w,
+                    /content/images/size/w600/2020/04/1-kl8Vpj5-QUrzAVbzvSih3Q.jpeg 600w,
+                    /content/images/size/w1000/2020/04/1-kl8Vpj5-QUrzAVbzvSih3Q.jpeg 1000w,
+                    /content/images/size/w2000/2020/04/1-kl8Vpj5-QUrzAVbzvSih3Q.jpeg 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="/content/images/size/w600/2020/04/1-kl8Vpj5-QUrzAVbzvSih3Q.jpeg"
+            alt="Os mobiles já estão mais rápidos que os PCs?"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/os-mobiles-ja-estao-mais-rapidos-que-os-pcs/">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">Análises</div>
+                <h2 class="post-card-title">Os mobiles já estão mais rápidos que os PCs?</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>A evolução do poder de processamento dos dispositivos móveis cresce a cada dia, mas será que eles já ultrapassam os computadores domésticos?</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        Davidson Francis
+                    </div>
+            
+                    <a href="/author/theldus/" class="static-avatar">
+                        <img class="author-profile-image" src="/content/images/size/w100/2020/04/theldus.png" alt="Davidson Francis" />
+                    </a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/theldus/">Davidson Francis</a></span>
+                <span class="post-card-byline-date"><time datetime="2019-04-07">7 Abr 2019</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-software ">
+
+    <a class="post-card-image-link" href="/slack-como-sistema-de-notificacoes/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/04/1-fJJwanZUQS644-LV54J1pw.png 300w,
+                    /content/images/size/w600/2020/04/1-fJJwanZUQS644-LV54J1pw.png 600w,
+                    /content/images/size/w1000/2020/04/1-fJJwanZUQS644-LV54J1pw.png 1000w,
+                    /content/images/size/w2000/2020/04/1-fJJwanZUQS644-LV54J1pw.png 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="/content/images/size/w600/2020/04/1-fJJwanZUQS644-LV54J1pw.png"
+            alt="Slack como sistema de notificações"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/slack-como-sistema-de-notificacoes/">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">Software</div>
+                <h2 class="post-card-title">Slack como sistema de notificações</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>Popular ferramenta de colaboração é útil para gerenciar avisos</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        Rodrigo Laneth
+                    </div>
+            
+                    <a href="/author/rlaneth/" class="static-avatar">
+                        <img class="author-profile-image" src="/content/images/size/w100/2020/04/Unknown-2.jpeg" alt="Rodrigo Laneth" />
+                    </a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/rlaneth/">Rodrigo Laneth</a></span>
+                <span class="post-card-byline-date"><time datetime="2018-10-19">19 Out 2018</time> <span class="bull">&bull;</span> 3 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+        </div>
+    </div>
+</aside>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://radialle.github.io">Radialle</a> &copy; 2020</section>
+                <nav class="site-footer-nav">
+                    <a href="https://radialle.github.io">Latest Posts</a>
+                    
+                    
+                    <a href="https://rapidlight.io" target="_blank" rel="noopener">RapidLight</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script src="/assets/built/casper.js"></script>
+
+    <script>
+        // Parse the URL parameter
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Give the parameter a variable name
+        var action = getParameterByName('action');
+
+        $(document).ready(function () {
+            if (action == 'subscribe') {
+                $('body').addClass("subscribe-success");
+            }
+
+            $('.subscribe-success-message .subscribe-close').click(function () {
+                $('.subscribe-success-message').addClass('close');
+            });
+
+            // Reset form on opening subscrion overlay
+            $('.subscribe-button').click(function() {
+                $('.subscribe-overlay form').removeClass();
+                $('.subscribe-email').val('');
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        // FitVids - start
+        var $postContent = $(".post-full-content");
+        $postContent.fitVids();
+        // FitVids - end
+
+        // Replace nav with title on scroll - start
+        Casper.stickyNavTitle({
+            navSelector: '.site-nav-main',
+            titleSelector: '.post-full-title',
+            activeClass: 'nav-post-title-active'
+        });
+        // Replace nav with title on scroll - end
+
+        // Hover on avatar
+        var hoverTimeout;
+        $('.author-list-item').hover(function () {
+            var $this = $(this);
+
+            clearTimeout(hoverTimeout);
+
+            $('.author-card').removeClass('hovered');
+            $(this).children('.author-card').addClass('hovered');
+
+        }, function () {
+            var $this = $(this);
+
+            hoverTimeout = setTimeout(function () {
+                $this.children('.author-card').removeClass('hovered');
+            }, 800);
+        });
+    });
+</script>
+
+
+    
+
+</body>
+</html>
